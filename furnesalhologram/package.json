@@ -1,0 +1,27 @@
+{
+  "name": "hologram",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --webpack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "next": "16.0.10",
+    "react": "19.2.1",
+    "react-dom": "19.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "dat.gui": "^0.7.9",
+    "eslint": "^9",
+    "eslint-config-next": "16.0.10",
+    "raw-loader": "^4.0.2",
+    "three": "^0.182.0",
+    "typescript": "^5"
+  }
+}
