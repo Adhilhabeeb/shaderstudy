@@ -1,8 +1,14 @@
 precision highp float;
+  uniform float uTime;
 
 varying vec2 vUv;
 varying vec3 vposition;
 varying vec3 vnormal;
+float rand(vec2 n) {
+  return fract(
+    sin(dot(n, vec2(12.9898, 78.233))) * 43758.5453123
+  );
+}
 
 //https://chatgpt.com/share/693e9f98-ea34-8003-b163-31688e2945e0      
 //   go to this 
@@ -13,6 +19,18 @@ void main() {
 //  modelmatrix is used to make the rotation and scaloinga nd chanhing the posituin    ennal  
 //  nammal  ength cheythalum like position change ,rotation change ,scaling enth cheythalum the vectior will not change or move 
   vec4 modelposition= modelMatrix * vec4(position, 1.0);
+    float vv= fract(modelposition.y*10.);
+    float glisch=sin(uTime -modelposition.y)*sin(uTime -modelposition.y);
+   
+    glisch=step(0.87,glisch);
+    glisch*=0.2;
+
+  modelposition.x+=(rand(modelposition.xy +uTime) -0.5)*glisch;
+  modelposition.z+=(rand(modelposition.xy +uTime) -0.5)*glisch;
+
+ 
+
+
   //  thazhethel  ithile  ippol model roation or posituoin changinhor scalling vannalum the  nomal athoini ansarich maran
   vec4 modelnorml= modelMatrix * vec4(normal, 0.0);
 

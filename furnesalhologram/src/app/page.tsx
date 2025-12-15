@@ -40,16 +40,19 @@ export default function Cube() {
     mountRef.current?.appendChild(renderer.domElement);
 const controls = new OrbitControls(camera, renderer.domElement);
     // Cube
+    
     const geometry = new THREE.SphereGeometry(1,15,32);
   const material = new THREE.ShaderMaterial({
       vertexShader,
-      fragmentShader,
+      fragmentShader,depthWrite:false,
       uniforms: {
         fvalue:{value:0.4},
         thickness:{value:cubeSettings.thickness},
         uTime: { value: cubeSettings.check1},
         uColor: { value: new THREE.Color("#00ffff") },
-      },side:THREE.DoubleSide,alphaToCoverage:true,transparent:true
+      },side:THREE.DoubleSide,alphaToCoverage:true,transparent:true,
+
+      blending:THREE.ACESFilmicToneMapping
     });
     const cube = new THREE.Mesh(geometry, material);
     scene.add(cube);
@@ -84,6 +87,54 @@ gui.add(cubeSettings, 'check1',0,1,0.1).onChange(value=>{
   //  material.uniforms.uTime.value = value;
 
 })
+
+// ===== TONE MAPPING GUI =====
+const params = {
+  toneMapping: "ACESFilmic",
+  exposure: 1.0,
+};
+
+const toneMappingOptions :any= {
+  NoToneMapping: THREE.NoToneMapping,
+  Linear: THREE.LinearToneMapping,
+  Reinhard: THREE.ReinhardToneMapping,
+  Cineon: THREE.CineonToneMapping,
+  ACESFilmic: THREE.ACESFilmicToneMapping,
+};
+
+const params1= {
+  blending: "Normal",
+};
+
+const blendingOptions :any= {
+  Normal: THREE.NormalBlending,
+  Additive: THREE.AdditiveBlending,
+  Subtractive: THREE.SubtractiveBlending,
+  Multiply: THREE.MultiplyBlending,
+};
+
+gui
+  .add(params1, "blending", Object.keys(blendingOptions))
+  .name("Blending Mode")
+  .onChange((value) => {
+    material.blending = blendingOptions[value];
+    material.needsUpdate = true;
+  });
+
+gui
+  .add(params, "toneMapping", Object.keys(toneMappingOptions))
+  .name("Tone Mapping")
+  .onChange((value) => {
+renderer.toneMapping=toneMappingOptions[value]
+  });
+
+gui
+  .add(params, "exposure", 0, 3, 0.01)
+  .name("Exposure")
+  .onChange((value) => {
+    renderer.toneMappingExposure = value;
+  });
+
 
 			function setupAttributes( geometry:THREE.BufferGeometry ) {
 
